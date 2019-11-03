@@ -35,7 +35,7 @@ predictions = new_model.predict(x_test)
 print(predictions)
 
 i=0
-for i in range(1000):
+for i in range(10):
     print(np.argmax(predictions[i]))
     plt.imshow(x_test[i], cmap=plt.cm.binary)
     plt.show()
