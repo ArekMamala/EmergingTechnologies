@@ -1,68 +1,67 @@
 //context = document.getElementById('canvasInAPerfectWorld').getContext("2d");
 
-var canvasDiv = document.getElementById('canvasDiv');
-canvas = document.createElement('canvas');
-canvas.setAttribute('width', canvasWidth);
-canvas.setAttribute('height', canvasHeight);
-canvas.setAttribute('id', 'canvas');
-canvasDiv.appendChild(canvas);
-if(typeof G_vmlCanvasManager != 'undefined') {
-	canvas = G_vmlCanvasManager.initElement(canvas);
-}
-context = canvas.getContext("2d");
+var canvas = document.getElementById('canvasDiv');
+var ctx = canvas.getContext("2d");
+var painting = document.getElementById("content");
+var paintStyle = getComputedStyle(painting);
+canvas.width = parseInt(paintStyle.getPropertyValue("width"));
+canvas.height = parseInt(paintStyle.getPropertyValue("height"));
 
-$('#canvas').mousedown(function(e){
-  var mouseX = e.pageX - this.offsetLeft;
-  var mouseY = e.pageY - this.offsetTop;
+var mouse = {x: 0, y: 0};
 
-  paint = true;
-  addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
-  redraw();
-});
-
-$('#canvas').mousemove(function(e){
-  if(paint){
-    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
-    redraw();
-  }
-});
-
-$('#canvas').mouseup(function(e){
-  paint = false;
-});
-
-$('#canvas').mouseleave(function(e){
-  paint = false;
-});
-
-var clickX = new Array();
-var clickY = new Array();
-var clickDrag = new Array();
-var paint;
-
-function addClick(x, y, dragging)
-{
-  clickX.push(x);
-  clickY.push(y);
-  clickDrag.push(dragging);
+function clearcanvas1() {
+    ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function redraw(){
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
+download_img = function (el) {
+    // get image URI from canvas object
+    var imageURI = canvas.toDataURL("image/jpg");
+    el.href = imageURI;
+};
 
-  context.strokeStyle = "#df4b26";
-  context.lineJoin = "round";
-  context.lineWidth = 5;
+canvas.addEventListener('mousemove', function (e) {
+    mouse.x = e.pageX - this.offsetLeft;
+    mouse.y = e.pageY - this.offsetTop;
+}, false);
 
-  for(var i=0; i < clickX.length; i++) {
-    context.beginPath();
-    if(clickDrag[i] && i){
-      context.moveTo(clickX[i-1], clickY[i-1]);
-     }else{
-       context.moveTo(clickX[i]-1, clickY[i]);
-     }
-     context.lineTo(clickX[i], clickY[i]);
-     context.closePath();
-     context.stroke();
-  }
+//we define some proprties for the painting zone
+ctx.lineWidth = 3;
+ctx.lineJoin = 'round';
+ctx.strokeStyle = '#000000';
+
+canvas.addEventListener('mousedown', function (e) {
+    //we draw the current path on canvas
+    ctx.beginPath();
+    ctx.moveTo(mouse.x, mouse.y);
+    canvas.addEventListener('mousemove', onPaint, false);
+}, false)
+
+canvas.addEventListener('mouseup', function () {
+    canvas.removeEventListener('mousemove', onPaint, false);
+}, false);
+
+var onPaint = function () {
+    ctx.lineTo(mouse.x, mouse.y);
+    ctx.stroke();
+};
+
+
+function sendImage() {
+    var dataURL = canvas.toDataURL();
+
+    $.ajax({
+        type: "POST",
+        url: "script.php",
+        data: {
+            imgBase64: dataURL
+        }
+    }).done(function (o) {
+        console.log('saved');
+        // If you want the file to be visible in the browser
+        // - please modify the callback in javascript. All you
+        // need is to return the url to the file, you just saved
+        // and than put the image in your browser.
+    });
 }
+
