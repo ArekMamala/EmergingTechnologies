@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+    <body onload="InitThis();">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../static/js/canvas.js"></script>
+        <div align="center">
+            <canvas id="myCanvas" width="400" height="400" style="border:2px solid black"></canvas>
+            <br/><br/>
+            <img id="canvasimg">
+
+            <button onclick="javascript:clearArea();return false;">Clear Area</button>
+
+            <form method="POST">
+                <input id="saveButton" type="button" value="Save" size="30" onclick="sendImage()">
+            </form>
+            <h1 id="predictedNumberHeader">Predicted number: </h1>
+            <h1 id="predictedNumber"></h1>
+        </div>
+    </body>
+</html>

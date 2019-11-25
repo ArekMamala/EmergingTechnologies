@@ -1,14 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import scipy.misc
-import cv2
-from PIL import Image, ImageDraw
-
-
-image = Image.open('img/myImage.png').convert('LA')
-plt.imshow(image)
-plt.show()
 
 mnist = tf.keras.datasets.mnist  # 28x 28 image of hand written didgits 0-9
 
@@ -43,6 +35,8 @@ new_model = tf.keras.models.load_model('epic_num_reading.model-test')
 predictions = new_model.predict(x_test)
 print(predictions)
 
+
+# tests on model
 i=0
 for i in range(3):
     print(np.argmax(predictions[i]))

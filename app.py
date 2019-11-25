@@ -1,16 +1,15 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, render_template
 from keras.models import load_model
-import base64
 import numpy as np
 import tensorflow as tf
 
 # PIL (Python Image Library)
 from PIL import Image, ImageOps
 import cv2
-
+import  base64
 app = Flask(__name__)
-model = tf.keras.models.load_model('static/epic_num_reading.model-test')
 
+model = tf.keras.models.load_model('static/epic_num_reading.model-test')
 # model = load_model('epic_num_reading.mode-test')
 
 # THE WIDTH AND THE HEIGHT OF THE IMAGES 28pixels
@@ -19,10 +18,10 @@ Width = 28
 size = Height, Width
 
 
-@app.route('/home')
+@app.route('/')
 def index():
-    return app.send_static_file('static/canvas.html')
-
+    # return 'This is the home page'
+    return render_template('canvas.html')
 
 @app.route('/digit', methods=['GET', 'POST'])
 def Image():
@@ -34,11 +33,11 @@ def Image():
         f.write(decodeImage)
 
     originalImage = Image.open("drawnNumber.png")
-    newImage = ImageOps.fit(originalImage, size)
+    newImage = ImageOps.fit(originalImage, size, Image.ANTIALIAS)
 
     newImage.save("resized.png")
 
-    cv2Image = cv2.imread("resizedUserDigit.png")
+    cv2Image = cv2.imread("resized.png")
 
     grayImage = cv2.cvtColor(cv2Image, cv2.COLOR_BGR2GRAY)
 
@@ -53,5 +52,5 @@ def Image():
     return predictedNumber
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(use_reloader=True, debug=True)
