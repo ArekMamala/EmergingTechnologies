@@ -44,8 +44,8 @@ def Image():
     grayImage = cv2.cvtColor(cv2Image, cv2.COLOR_BGR2GRAY)
 
     grayImage = tf.keras.utils.normalize(grayImage, axis=1)
-    print(f"xtest Lenght =  { len(grayImage) }")
-    print(f"xtest Lenght [0] =  { len(grayImage[0]) }")
+    print(f"gray image Lenght =  { len(grayImage) }")
+    print(f"gray image Lenght [0] =  { len(grayImage[0]) }")
     #print(f"xtest Lenght [0][0] =  { len(grayImage[0][0]) }")
 
     grayImage = np.array([grayImage])
