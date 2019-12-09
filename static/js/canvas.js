@@ -1,7 +1,8 @@
 var mousePressed = false;
 var lastX, lastY;
 var ctx;
-var context = canvas.getContext('2D');
+
+//var context = canvas.getContext('2d');
 
 function InitThis() {
     ctx = document.getElementById('myCanvas').getContext("2d");
@@ -45,6 +46,7 @@ function clearArea() {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
+
 
 function sendImage() {
     var canvas = document.getElementById('myCanvas');

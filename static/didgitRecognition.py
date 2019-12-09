@@ -1,3 +1,5 @@
+import PIL
+
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -14,13 +16,15 @@ x_test = tf.keras.utils.normalize(x_test, axis=1)
 model = tf.keras.models.Sequential()
 model.add(tf.keras.layers.Flatten())
 # 2 hidden layers
-model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(392, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(392, activation=tf.nn.relu))
 # output layer
 model.add(tf.keras.layers.Dense(10, activation=tf.nn.softmax))
 
+
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
 model.fit(x_train, y_train, epochs=3)
+model.summary()
 
 val_loss, val_acc = model.evaluate(x_test, y_test)
 print(val_loss, val_acc)
@@ -30,9 +34,14 @@ plt.show()
 print(x_train[0])
 
 
-model.save('epic_num_reading.model-test')
-new_model = tf.keras.models.load_model('epic_num_reading.model-test')
+model.save('AreksModel.model')
+new_model = tf.keras.models.load_model('AreksModel.model')
 predictions = new_model.predict(x_test)
+print(f"xtest Lenght =  { len(x_test) }")
+print(f"xtest Lenght of [0][0] =  { len(x_test[0][0]) }")
+print(f'Image shape: {x_test.shape}')
+print(f'Image shape: {x_test.shape[0]}')
+
 print(predictions)
 
 
@@ -48,15 +57,5 @@ for i in range(3):
 print(np.argmax(predictions[3]))
 plt.imshow(x_test[3], cmap=plt.cm.binary)
 plt.show()
-
-
-#new_model1 = tf.keras.models.load_model('epic_num_reading.model')
-#imageq = Image.open("img/greyscale.png")
-
-#image = image.resize((28,28))
-#im2arr = np.array(image)
-#print(np.shape(im2arr))
-#im2arr = im2arr.reshape((1,28,28,1))
-#predictions = new_model1.predict(im2arr)
 
 
