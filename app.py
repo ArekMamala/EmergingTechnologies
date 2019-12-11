@@ -8,10 +8,15 @@ import cv2
 import base64
 import flask as flask
 
+
 app = flask.Flask(__name__)
 
-model = tf.keras.models.load_model('static/AreksModel.model')
-# model = load_model('epic_num_reading.mode-test')
+
+
+model = tf.keras.models.load_model('AreksModel.h5')
+model._make_predict_function()
+tf.reset_default_graph()
+graph = tf.get_default_graph()
 
 # THE WIDTH AND THE HEIGHT OF THE IMAGES 28pixels
 Height = 28
@@ -38,30 +43,32 @@ def Image():
     newImage = PIL.ImageOps.fit(originalImage, size, PIL.Image.ANTIALIAS)
 
     newImage.save("resized.png")
-
     cv2Image = cv2.imread("resized.png")
 
     grayImage = cv2.cvtColor(cv2Image, cv2.COLOR_BGR2GRAY)
 
+    #
     grayImage = tf.keras.utils.normalize(grayImage, axis=1)
-    print(f"gray image Lenght =  { len(grayImage) }")
-    print(f"gray image Lenght [0] =  { len(grayImage[0]) }")
-    #print(f"xtest Lenght [0][0] =  { len(grayImage[0][0]) }")
+    print(f"gray image Lenght =  {len(grayImage)}")
+    print(f"gray image Lenght [0] =  {len(grayImage[0])}")
 
-    grayImage = np.array([grayImage])
+    grayImageArray = np.array(grayImage, dtype=np.float32).reshape(1, 784)
+    grayImageArray /= 255
 
-    print(f'Image shape: { grayImage.shape }')
+    print(f'Image shape: {grayImage.shape}')
 
-    prediction = model.predict(grayImage)
-    print(prediction)
-#grayArray = np.array(grayImage, dtype=np.float32).reshape(1, 784)
+    # prediction = model.predict(grayImage)
+    # print(prediction)
 
-#  getPrediction = np.array(setPrediction[0])
+    setPrediction = model.predict(grayImageArray)
+    getPrediction = np.array(setPrediction[0])
+   # prediction = model.predict(grayImageArray)
 
-#   predictedNumber = str(np.argmax(getPrediction))
-#    print(predictedNumber)
+    predictedNumber = str(np.argmax(getPrediction))
 
-    return prediction
+    print(f"prediction of drawing ====  {predictedNumber}")
+
+    return predictedNumber
 
 
 if __name__ == "__main__":
