@@ -1,9 +1,9 @@
-===  Arkadiusz Mamala - B.S.C In software Development
-===  G00349088 - Final Year Student
-===  Course - Emerging Technology 
-===  Project - Assessment 2019
+### Arkadiusz Mamala - B.S.C In software Development
+### G00349088 - Final Year Student
+### Course - Emerging Technology 
+### Project - Assessment 2019
 
-== The project consists of the following files
+## The project consists of the following files
   .ipynb_checkpoints (Notebook Checkpoint save)
   .AssignmentNotebook-ArkadiuszMamala-checkpoint.ipynb (The Notebook Saved)
 
@@ -30,7 +30,7 @@
 
  resized.png (drawnNumber resized to fit the model)
 
-== How To Run the file?
+## How To Run the file?
 1. Install anaconda oe update using the command -conda update --all
 2. Need keras and Tensorflow installed conda install -c conda-forge keras tensorflow
 3. Need other imports installed such as 
@@ -57,8 +57,7 @@
 9. To clear canvas press "clearArea" to predict press button "predict"
 10 . Predicted number should come up on the screen beside 
 
-For more information on the project visit the Reasearch document in both branches 
-and a video on the project itself. 
+For more information on the project visit the Reasearch document located in the Wiki page
 
 
 
