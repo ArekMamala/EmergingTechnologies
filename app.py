@@ -10,13 +10,11 @@ import flask as flask
 
 
 app = flask.Flask(__name__)
-
-
-
-model = tf.keras.models.load_model('AreksModel.h5')
-model._make_predict_function()
-tf.reset_default_graph()
 graph = tf.get_default_graph()
+
+model = tf.keras.models.load_model('static/AreksModel.h5')
+model._make_predict_function()
+
 
 # THE WIDTH AND THE HEIGHT OF THE IMAGES 28pixels
 Height = 28

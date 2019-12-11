@@ -1,6 +1,7 @@
 var mousePressed = false;
 var lastX, lastY;
 var ctx;
+var canvas = document.getElementById('myCanvas')
 
 //var context = canvas.getContext('2d');
 
@@ -48,6 +49,28 @@ function clearArea() {
 }
 
 
+function PredictNumber() {
+    //directed to take the image
+    var canvas = document.getElementById("myCanvas");
+    var dataURL = canvas.toDataURL();
+    console.log(dataURL);
+
+    // Using Ajax post method for the image
+    $.ajax({
+        type: 'POST',
+        url: 'http://127.0.0.1:5000/digit',
+        data: {
+            imgBase64: dataURL
+        }
+    }).done(function (data) {
+        // Logging to the console to confirm
+        console.log('SENT');
+        // sending predicted number to the console
+        console.log(data);
+        $("#predict").empty().append(data);
+    });
+};
+
 function sendImage() {
     var canvas = document.getElementById('myCanvas');
     var url = "http://127.0.0.1:5000/digit";
@@ -58,7 +81,7 @@ function sendImage() {
     $.post(url, {
         "imageBase64": imageData
     }, function (data) {
-        $("#predictedNumber").empty().append(data);
+        $("#predict").empty().append(data);
         console.log('saved');
 
     });
