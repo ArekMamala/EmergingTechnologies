@@ -58,7 +58,7 @@
 10 . Predicted number should come up on the screen beside 
 
 For more information on the project visit the Reasearch document located in the Wiki page
-
+https://github.com/ArekMamala/EmergingTechnologies/wiki
 
 
 
