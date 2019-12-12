@@ -33,6 +33,10 @@ print(x_test.shape)
 # The y_train of the first 10 values
 print(y_train[:9 + 1])
 tf.reset_default_graph()
+
+session = tf.keras.backend.get_session()
+init = tf.global_variables_initializer()
+session.run(init)
 model = tf.keras.models.Sequential()# creating a new sequential model
 
 

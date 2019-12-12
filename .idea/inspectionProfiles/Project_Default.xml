@@ -15,5 +15,15 @@
         </list>
       </option>
     </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="app.tf_config" />
+          <option value="app.some_custom_config" />
+          <option value="app.tf_session" />
+          <option value="app.self" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>

@@ -54,11 +54,14 @@ function PredictNumber() {
     var canvas = document.getElementById("myCanvas");
     var dataURL = canvas.toDataURL();
     console.log(dataURL);
+    var url = "http://127.0.0.1:5000/digit";
 
+
+    //this methodnot working
     // Using Ajax post method for the image
     $.ajax({
         type: 'POST',
-        url: 'http://127.0.0.1:5000/digit',
+        url: url,
         data: {
             imgBase64: dataURL
         }
@@ -67,13 +70,13 @@ function PredictNumber() {
         console.log('SENT');
         // sending predicted number to the console
         console.log(data);
-        $("#predict").empty().append(data);
+        $("#predictedNumber").empty().append(data);
     });
 };
 
 function sendImage() {
     var canvas = document.getElementById('myCanvas');
-    var url = "http://127.0.0.1:5000/digit";
+    var url = "digit";
     var dataURL = canvas.toDataURL();
     var imageData = canvas.toDataURL();
 
@@ -81,7 +84,7 @@ function sendImage() {
     $.post(url, {
         "imageBase64": imageData
     }, function (data) {
-        $("#predict").empty().append(data);
+        $("#predictedNumber").empty().append(data);
         console.log('saved');
 
     });
