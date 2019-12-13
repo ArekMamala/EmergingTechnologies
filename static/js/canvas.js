@@ -31,7 +31,7 @@ function Draw(x, y, isDown) {
     if (isDown) {
         ctx.beginPath();
         ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 9;
+        ctx.lineWidth = 5;
         ctx.lineJoin = "round";
         ctx.moveTo(lastX, lastY);
         ctx.lineTo(x, y);
@@ -49,32 +49,7 @@ function clearArea() {
 }
 
 
-function PredictNumber() {
-    //directed to take the image
-    var canvas = document.getElementById("myCanvas");
-    var dataURL = canvas.toDataURL();
-    console.log(dataURL);
-    var url = "http://127.0.0.1:5000/digit";
-
-
-    //this methodnot working
-    // Using Ajax post method for the image
-    $.ajax({
-        type: 'POST',
-        url: url,
-        data: {
-            imgBase64: dataURL
-        }
-    }).done(function (data) {
-        // Logging to the console to confirm
-        console.log('SENT');
-        // sending predicted number to the console
-        console.log(data);
-        $("#predictedNumber").empty().append(data);
-    });
-};
-
-function sendImage() {
+function Predict() {
     var canvas = document.getElementById('myCanvas');
     var url = "digit";
     var dataURL = canvas.toDataURL();

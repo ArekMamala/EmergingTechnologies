@@ -33,15 +33,11 @@ print(x_test.shape)
 # The y_train of the first 10 values
 print(y_train[:9 + 1])
 tf.reset_default_graph()
-
-session = tf.keras.backend.get_session()
-init = tf.global_variables_initializer()
-session.run(init)
 model = tf.keras.models.Sequential()# creating a new sequential model
 
 
-model.add(tf.keras.layers.Dense(784, activation='relu',input_shape=(784,))) # Use input_shape=(28,28) for unflattened data.
-model.add(tf.keras.layers.Dense(784, activation='relu'))
+model.add(tf.keras.layers.Dense(28, activation='relu',input_shape=(784,))) # Use input_shape=(28,28) for unflattened data.
+model.add(tf.keras.layers.Dense(28, activation='relu'))
 
 # Dropout layer exists to avoid overfitting of model
 model.add(tf.keras.layers.Dropout(0.2))
@@ -57,7 +53,7 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 
 # Train the model using the .fit() method
 # Epoch is the amout of time it goes throug this
-model.fit(x_train, y_train, batch_size=20, epochs=1, verbose=1,
+model.fit(x_train, y_train, batch_size=10, epochs=2, verbose=1,
           validation_data=(x_test, y_test))
 
 score = model.evaluate(x_test, y_test, verbose=0)
@@ -78,7 +74,7 @@ plt.show()
 
 # Returns normalized output for each digit and also uses argmax to return the actual prediction
 # print(loadedModel.predict(test_img[77:78])
-np.argmax(new_model.predict(x_test[77:78]))
+"Predicted digit: ", np.argmax(new_model.predict(x_test[77:78]))
 print(np.argmax(new_model.predict(x_test[77:78])))
 
 
@@ -114,17 +110,6 @@ prediction = model.predict(grayImageArray)
 predictedNumber = str(np.argmax(getPrediction))
 
 print(f"prediction of drawing ====  { predictedNumber }")
-
-
-
-
-
-
-
-
-
-
-
 
 # checking the length of x_test
 print(f"xtest Lenght =  {len(x_test)}")

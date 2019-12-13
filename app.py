@@ -10,13 +10,6 @@ import flask as flask
 
 app = flask.Flask(__name__)
 
-model = tf.keras.models.load_model('AreksModel.h5')
-model.summary()
-graph = tf.get_default_graph()
-
-#model._make_predict_function()
-
-
 # THE WIDTH AND THE HEIGHT OF THE IMAGES 28pixels
 Height = 28
 Width = 28
@@ -31,45 +24,47 @@ def index():
 
 @app.route('/digit', methods=['POST'])
 def Image():
-    global graph
-    with graph.as_default():
-        imageB64 = flask.request.values[('imageBase64')]
 
-        decodeImage = base64.b64decode(imageB64[22:])
+    imageB64 = flask.request.values[('imageBase64')]
 
-        with open("drawnNumber.png", "wb") as f:
-            f.write(decodeImage)
+    decodeImage = base64.b64decode(imageB64[22:])
 
-        originalImage = PIL.Image.open("drawnNumber.png")
-        newImage = PIL.ImageOps.fit(originalImage, size, PIL.Image.ANTIALIAS)
+    with open("drawnNumber.png", "wb") as f:
+        f.write(decodeImage)
 
-        newImage.save("resized.png")
-        cv2Image = cv2.imread("resized.png")
+    originalImage = PIL.Image.open("drawnNumber.png")
+    newImage = PIL.ImageOps.fit(originalImage, size, PIL.Image.ANTIALIAS)
 
-        grayImage = cv2.cvtColor(cv2Image, cv2.COLOR_BGR2GRAY)
+    newImage.save("resized.png")
+    cv2Image = cv2.imread("resized.png")
 
-        #
-        grayImage = tf.keras.utils.normalize(grayImage, axis=1)
-        print(f"gray image Lenght =  {len(grayImage)}")
-        print(f"gray image Lenght [0] =  {len(grayImage[0])}")
+    grayImage = cv2.cvtColor(cv2Image, cv2.COLOR_BGR2GRAY)
 
-        grayImageArray = np.array(grayImage, dtype=np.float32).reshape(1, 784)
-        grayImageArray /= 255
 
-        print(f'Image shape: {grayImage.shape}')
+    #grayImage = tf.keras.utils.normalize(grayImage)
+    print(f"gray image Lenght =  {len(grayImage)}")
+    print(f"gray image Lenght [0] =  {len(grayImage[0])}")
 
-        # prediction = model.predict(grayImage)
-        # print(prediction)
+    grayImageArray = np.array(grayImage, dtype=np.float32).reshape(1, 784)
+    grayImageArray /= 255
 
-        setPrediction = model.predict(grayImageArray)
-        getPrediction = np.array(setPrediction[0])
-       # prediction = model.predict(grayImageArray)
+    print(f'Image shape: {grayImage.shape}')
 
-        predictedNumber = str(np.argmax(getPrediction))
+    # prediction = model.predict(grayImage)
+    # print(prediction)
 
-        print(f"prediction of drawing ====  {predictedNumber}")
+    model = tf.keras.models.load_model('AreksModel.h5')
+    #model.summary()
 
-        return predictedNumber
+    setPrediction = model.predict(grayImageArray)
+    getPrediction = np.array(setPrediction[0])
+   # prediction = model.predict(grayImageArray)
+
+    predictedNumber = str(np.argmax(getPrediction))
+
+    print(f"prediction of drawing ====  {predictedNumber}")
+
+    return predictedNumber
 
 
 if __name__ == "__main__":
